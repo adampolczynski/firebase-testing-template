@@ -14,14 +14,14 @@
     "firebase-emulators-testing",
     "firebase-emulators"
   ],
-  "main": "./src/index.ts",
+  "main": "./src/index.js",
   "author": {
     "name": "Adam Połczyński <adam_polczynski@yahoo.com>"
   },
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "firebase emulators:start --only functions firestore",
+    "start": "pnpm build &&  npx dotenvx run -- firebase emulators:start",
     "build:watch": "tsc --watch",
     "test": "jest --coverage --verbose",
     "emulators:test": "firebase emulators:exec --only functions firestore pnpm test",
@@ -33,6 +33,7 @@
     "node": "22"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.17.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "firebase": "^10.14.1",
