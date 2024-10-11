@@ -14,12 +14,8 @@
 
     "noImplicitAny": true,
 
-    "preserveConstEnums": true,
-
-    "outDir": "./dist",
-
-    "sourceMap": true
+    "preserveConstEnums": true
   },
-  "include": ["lib/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["**/*.test.ts"]
 }

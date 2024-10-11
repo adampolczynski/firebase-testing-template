@@ -1,16 +1,25 @@
-import express from 'express';
-import { onRequest } from 'firebase-functions/v2/https';
+import { initializeApp as firebaseApp } from 'firebase/app';
+import { initializeApp as firebaseAdminApp } from 'firebase-admin';
+// import { parse as parseEnv, config as envConfig } from 'dotenv';
+import { getFirestore } from 'firebase/firestore';
+// import { api } from './functions';
 
-const PORT = 3000;
+// const env = envConfig({ path: '../.env' }).parsed;
+// console.debug('env', env);
+// if (!env) {
+//   process.exit(1);
+// }
+const env = process.env;
 
-const app = express();
+const firebaseConfig = {
+  apiKey: env.FIREBASE_API_KEY,
+  authDomain: env.FIREBASE_AUTH_DOMAIN,
+  projectId: env.FIREBASE_PROJECT_ID,
+  storageBucket: env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.FIREBASE_APP_ID,
+};
 
-app.get('/', (request, response) => {
-  response.send('Hello from Firebase cloud function!');
-});
-
-app.listen(PORT, () => {
-  console.debug(`Listeing on ${PORT}`);
-});
-
-export const api = onRequest(app);
+const app = firebaseApp(firebaseConfig);
+const adminApp = firebaseAdminApp(firebaseConfig);
+const db = getFirestore(app);

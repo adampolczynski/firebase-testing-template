@@ -2,8 +2,8 @@
   "name": "firebase-testing-template",
   "package-name": "firebase-testing-template",
   "version": "1.0.0",
-  "displayName": "Firebase testing template",
-  "description": "Way to test firebase auth, firestore and functions using emulators",
+  "displayName": "Firebase functions & firestore testing template",
+  "description": "Template presenting a way to test firebase firestore and functions using emulators",
   "keywords": [
     "firebase-tests",
     "firebase-testing",
@@ -21,18 +21,21 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "start": "firebase emulators:start --only functions firestore",
     "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "test": "jest --coverage --verbose",
+    "emulators:test": "firebase emulators:exec --only functions firestore pnpm test",
+    "functions:serve": "npm run build && firebase emulators:start --only functions",
+    "functions:shell": "npm run build && firebase functions:shell",
+    "functions:logs": "firebase functions:log"
   },
   "engines": {
-    "node": "21"
+    "node": "22"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "firebase": "^10.14.1",
     "firebase-admin": "^12.1.0",
     "firebase-functions": "^6.0.1"
   },
