@@ -23,7 +23,7 @@
     "build": "tsc",
     "start": "pnpm build &&  npx dotenvx run -- firebase emulators:start",
     "build:watch": "tsc --watch",
-    "test": "jest --coverage --verbose",
+    "test": "firebase emulators:exec \"jest --coverage --verbose\"  --only functions",
     "emulators:test": "firebase emulators:exec --only functions firestore pnpm test",
     "functions:serve": "npm run build && firebase emulators:start --only functions",
     "functions:shell": "npm run build && firebase functions:shell",
@@ -35,7 +35,7 @@
   "dependencies": {
     "@dotenvx/dotenvx": "^1.17.0",
     "dotenv": "^16.4.5",
-    "easy-busboy": "^1.1.6",
+    "easy-busboy": "^1.2.0",
     "express": "^4.21.1",
     "firebase": "^10.14.1",
     "firebase-admin": "^12.1.0",
