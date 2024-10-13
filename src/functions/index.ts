@@ -9,8 +9,7 @@ app.post('/', async (request, response) => {
   const { fields, files } = await easyBusboy(request);
 
   const exampleService = new ExampleService();
-  exampleService.addField('test', 123);
-  exampleService.addField('another', { i: 123 });
+  exampleService.process();
 
   response.send({ fields, files, example: exampleService.toString() });
 });

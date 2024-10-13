@@ -3,15 +3,27 @@ export class ExampleService {
 
   constructor() {
     this.obj = {
-      id: Math.random() * 100,
+      id: this.random(),
     };
   }
 
-  addField = (fieldname: string, value: any) => {
+  private addField(fieldname: string, value: any) {
     this.obj[fieldname] = value;
-  };
+  }
 
-  toString = () => {
+  private addRandomField() {
+    this.addField(`${this.random()}`, this.random());
+  }
+
+  private random() {
+    return Math.random() * 1000;
+  }
+
+  process() {
+    this.addRandomField();
+  }
+
+  toString() {
     return JSON.stringify(this.obj);
-  };
+  }
 }
