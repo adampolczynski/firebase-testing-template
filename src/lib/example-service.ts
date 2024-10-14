@@ -1,3 +1,5 @@
+import { debug } from 'firebase-functions/logger';
+
 export class ExampleService {
   obj: Record<string, any> = {};
 
@@ -5,10 +7,12 @@ export class ExampleService {
     this.obj = {
       id: this.random(),
     };
+    debug(`exampleService created obj with id ${this.obj.id}`);
   }
 
   private addField(fieldname: string, value: any) {
     this.obj[fieldname] = value;
+    debug(`exampleService added field ${fieldname}`);
   }
 
   private addRandomField() {
@@ -20,10 +24,12 @@ export class ExampleService {
   }
 
   process() {
+    debug(`exampleService process()`);
     this.addRandomField();
   }
 
   toString() {
+    debug(`exampleService stringified`);
     return JSON.stringify(this.obj);
   }
 }

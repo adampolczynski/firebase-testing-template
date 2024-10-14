@@ -36,8 +36,10 @@
 import type { IEasyBusboyResponse } from 'easy-busboy';
 import { readFile } from 'fs/promises';
 import path from 'path';
+import FormData from 'form-data';
 
 import { exampleCloudFunction } from '../../src/functions';
+import { Request } from 'firebase-functions/v1';
 
 interface ITestFunctionResponse extends IEasyBusboyResponse {
   example: string;
@@ -61,25 +63,18 @@ describe('exampleCloudFunction', () => {
   it('expect exampleCloudFunction to return status 200', async () => {
     const testFormData = await prepareFormData();
 
-    const temp: Record<string, any> = {};
-    for await (const [k, v] of testFormData.entries()) {
-      temp[k] = v;
-    }
-
-    console.debug(temp);
-
-    const formDataBuffer = Buffer.from(JSON.stringify(temp));
-
     const req = {
-      headers: {
-        'content-type': `multipart/form-data; boundary=${formDataBuffer.byteLength}`,
-      },
-      rawBody: formDataBuffer,
+      headers: testFormData.getHeaders(),
+      rawBody: testFormData.getBuffer(),
       on: (e: string, f: jest.Func) => {},
       pipe: (v: any) => {},
-      // connection: {},
     };
-    const response = await exampleCloudFunction(req as any, {} as any);
+
+    const res = {
+      send: jest.fn(),
+    };
+
+    const response = await exampleCloudFunction(req as any, res as any);
     console.debug(response);
   });
 
@@ -104,9 +99,9 @@ describe('exampleCloudFunction', () => {
     formData.append('text3', '<rumbling>');
     formData.append('json like field [123] {}', 'what a mess');
 
-    formData.append('file', new Blob([file1]));
-    formData.append('file2', new Blob([file2]));
-    formData.append('file3', new Blob([file3]));
+    formData.append('file', file1);
+    formData.append('file2', file2);
+    formData.append('file3', file3);
 
     return formData;
   };

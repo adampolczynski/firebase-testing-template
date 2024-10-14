@@ -1,21 +1,26 @@
 import { easyBusboy } from 'easy-busboy';
 import express from 'express';
 import { onRequest } from 'firebase-functions/v2/https';
+import { debug } from 'firebase-functions/logger';
 import { ExampleService } from '../lib/example-service';
 import { IncomingMessage } from 'http';
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 
 const app = express();
 
 export const exampleCloudFunction = async (
-  request: IncomingMessage,
+  request: Request,
   response: Response
 ) => {
-  console.debug(request, request.on);
+  debug(`exampleFunction with body: ${request.body}`);
   const { fields, files } = await easyBusboy(request);
+  debug(
+    `easyBusboy response keys: ${Object.keys(files)}, ${Object.keys(fields)}`
+  );
 
   const exampleService = new ExampleService();
   exampleService.process();
+  debug(`exampleService response: ${exampleService.toString()}`);
 
   response.send({ fields, files, example: exampleService.toString() });
 };
