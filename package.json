@@ -21,10 +21,9 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "pnpm build &&  npx dotenvx run -- firebase emulators:start",
+    "start": "pnpm build && npx dotenvx run -- firebase emulators:start",
     "build:watch": "tsc --watch",
-    "test": "firebase emulators:exec \"jest --coverage --verbose\"  --only functions",
-    "emulators:test": "firebase emulators:exec --only functions firestore pnpm test",
+    "test": "pnpm build && firebase emulators:exec \"jest --coverage --verbose\"  --only functions",
     "functions:serve": "npm run build && firebase emulators:start --only functions",
     "functions:shell": "npm run build && firebase functions:shell",
     "functions:logs": "firebase functions:log"

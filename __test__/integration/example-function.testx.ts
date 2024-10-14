@@ -1,15 +1,19 @@
 import { IEasyBusboyResponse } from 'easy-busboy';
 import { readFile } from 'fs/promises';
 import path from 'path';
+import { sendRequest } from '../utils';
 
-const PATH =
-  'http://127.0.0.1:5001/fir-testing-template/us-central1/default-api';
+const EXAMPLE_FUNCTION_ROUTE = '/';
 
-const person1FilePath = path.join(__dirname, '../../src/assets/person1.jpg');
-const person2FilePath = path.join(__dirname, '../../src/assets/person2.jpg');
-const person3FilePath = path.join(__dirname, '../../src/assets/person3.jpg');
+interface ITestFunctionResponse extends IEasyBusboyResponse {
+  example: string;
+}
 
-describe('', () => {
+const person1FilePath = path.join(__dirname, '../../assets/person1.jpg');
+const person2FilePath = path.join(__dirname, '../../assets/person2.jpg');
+const person3FilePath = path.join(__dirname, '../../assets/person3.jpg');
+
+describe('exampleCloudFunction', () => {
   let file1: Buffer;
   let file2: Buffer;
   let file3: Buffer;
@@ -20,19 +24,26 @@ describe('', () => {
     file3 = await readFile(person3FilePath);
   });
 
-  it('test', async () => {
+  it('expect exampleCloudFunction to return status 200', async () => {
     const testFormData = await prepareFormData();
 
-    const res = await fetch(PATH, {
-      method: 'POST',
-      body: testFormData,
-    });
+    const { status } = await sendRequest<ITestFunctionResponse>(
+      EXAMPLE_FUNCTION_ROUTE,
+      testFormData
+    );
 
-    const jsonRes = (await res.json()) as IEasyBusboyResponse & {
-      example: object;
-    };
-    const { fields, files, example } = jsonRes;
-    console.debug('test res: ', jsonRes);
+    expect(status).toEqual(200);
+  });
+
+  it('expect exampleCloudFunction to return correct data', async () => {
+    const testFormData = await prepareFormData();
+
+    const { response } = await sendRequest<ITestFunctionResponse>(
+      EXAMPLE_FUNCTION_ROUTE,
+      testFormData
+    );
+
+    const { fields, files, example } = response;
 
     expect(files['file'].buffer).toStrictEqual(file1.toJSON());
     expect(files['file2'].buffer).toStrictEqual(file2.toJSON());
@@ -42,7 +53,8 @@ describe('', () => {
       expect(value).toEqual(testFormData.get(k));
     });
 
-    console.debug(example);
+    expect(typeof example).toEqual('string');
+    expect(typeof JSON.parse(example)).toEqual('object');
   });
 
   const prepareFormData = async () => {
