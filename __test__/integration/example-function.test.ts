@@ -13,7 +13,7 @@ const person1FilePath = path.join(__dirname, '../../assets/person1.jpg');
 const person2FilePath = path.join(__dirname, '../../assets/person2.jpg');
 const person3FilePath = path.join(__dirname, '../../assets/person3.jpg');
 
-describe('exampleCloudFunction', () => {
+describe('exampleFunction integration tests', () => {
   let file1: Buffer;
   let file2: Buffer;
   let file3: Buffer;

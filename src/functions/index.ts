@@ -12,7 +12,7 @@ export const exampleCloudFunction = async (
   request: Request,
   response: Response
 ) => {
-  debug(`exampleFunction with body: ${request.body}`);
+  debug(`exampleFunction init`);
   const { fields, files } = await easyBusboy(request);
   debug(
     `easyBusboy response keys: ${Object.keys(files)}, ${Object.keys(fields)}`

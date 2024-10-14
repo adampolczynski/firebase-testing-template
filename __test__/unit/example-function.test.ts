@@ -49,7 +49,7 @@ const person1FilePath = path.join(__dirname, '../../assets/person1.jpg');
 const person2FilePath = path.join(__dirname, '../../assets/person2.jpg');
 const person3FilePath = path.join(__dirname, '../../assets/person3.jpg');
 
-describe('exampleCloudFunction', () => {
+describe('exampleFunction unit tests', () => {
   let file1: Buffer;
   let file2: Buffer;
   let file3: Buffer;
@@ -60,7 +60,9 @@ describe('exampleCloudFunction', () => {
     file3 = await readFile(person3FilePath);
   });
 
-  it('expect exampleCloudFunction to return status 200', async () => {
+  it('expect exampleCloudFunction return correct properties with res.send()', async () => {
+    let result: any;
+
     const testFormData = await prepareFormData();
 
     const req = {
@@ -71,26 +73,31 @@ describe('exampleCloudFunction', () => {
     };
 
     const res = {
-      send: jest.fn(),
+      send: (res: any) => (result = res),
     };
 
-    const response = await exampleCloudFunction(req as any, res as any);
-    console.debug(response);
+    await exampleCloudFunction(req as any, res as any);
+
+    const { files, fields, example } = result;
+
+    expect(files['file'].buffer).toStrictEqual(file1);
+    expect(files['file2'].buffer).toStrictEqual(file2);
+    expect(files['file3'].buffer).toStrictEqual(file3);
+
+    // @TODO continue here
+    // console.debug(testFormData.getBuffer().toJSON());
+    // const formDataFields = testFormData.getBuffer().toJSON();
+
+    // await Promise.all(
+    //   Object.entries<any>(fields).map(async ([k, { value }]) => {
+    //     const x = formDataFields[]
+    //       expect(value).toEqual(d);
+    //   })
+    // );
+
+    expect(typeof example).toEqual('string');
+    expect(typeof JSON.parse(example)).toEqual('object');
   });
-
-  // it('expect exampleCloudFunction to return correct data', async () => {
-  //   const testFormData = await prepareFormData();
-
-  //   const response = await exampleCloudFunction(
-  //     {
-  //       headers: {
-  //         'content-type': `multipart/form-data; boundary=${'213'}`,
-  //       },
-  //     } as any,
-  //     {} as any
-  //   );
-  //   console.debug(response);
-  // });
 
   const prepareFormData = async () => {
     const formData = new FormData();
