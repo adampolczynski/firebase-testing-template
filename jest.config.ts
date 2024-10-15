@@ -6,7 +6,9 @@ const config: Config = {
   transform: {
     '^.+.tsx?$': ['ts-jest', {}],
   },
-  collectCoverageFrom: ['src/functions/*.{ts,tsx}', 'src/lib/*.{ts,tsx}'],
+  roots: ['src/', '__test__/'],
+  collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
 };
 
 export default config;
