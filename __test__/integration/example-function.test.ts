@@ -24,7 +24,7 @@ describe('exampleFunction integration tests', () => {
     file3 = await readFile(person3FilePath);
   });
 
-  it('expect exampleCloudFunction to return status 200', async () => {
+  it('expect exampleFunction to return status 200', async () => {
     const testFormData = await prepareFormData();
 
     const { status } = await sendRequest<ITestFunctionResponse>(
@@ -35,7 +35,7 @@ describe('exampleFunction integration tests', () => {
     expect(status).toEqual(200);
   });
 
-  it('expect exampleCloudFunction to return correct data', async () => {
+  it('expect exampleFunction to return correct data', async () => {
     const testFormData = await prepareFormData();
 
     const { response } = await sendRequest<ITestFunctionResponse>(

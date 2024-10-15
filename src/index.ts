@@ -1,9 +1,11 @@
+import express from 'express';
 import { initializeApp as firebaseApp, FirebaseOptions } from 'firebase/app';
 import * as fbAdmin from 'firebase-admin';
 import { getFirestore } from 'firebase/firestore';
-import { api } from './functions';
 
 import { config } from '@dotenvx/dotenvx';
+import { onRequest } from 'firebase-functions/v2/https';
+import { exampleFunction } from './functions/example-function';
 config();
 
 // const { defineSecret } = require('firebase-functions/params');
@@ -26,8 +28,13 @@ const firebaseConfig: FirebaseOptions = {
   appId: env.FB_APP_ID,
 };
 
+const expressApp = express();
+expressApp.post('/', exampleFunction);
+
 const app = firebaseApp(firebaseConfig);
 const adminApp = fbAdmin.initializeApp({ projectId: env.FB_PROJECT_ID });
 const db = getFirestore(app);
+
+export const api = onRequest(expressApp);
 
 export default { api };

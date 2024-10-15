@@ -60,7 +60,7 @@ describe('exampleFunction unit tests', () => {
     file3 = await readFile(person3FilePath);
   });
 
-  it('expect exampleCloudFunction return correct properties with res.send()', async () => {
+  it('expect exampleFunction return correct properties with res.send()', async () => {
     let result: any;
 
     const testFormData = await prepareFormData();
