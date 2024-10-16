@@ -16,3 +16,15 @@ export const exampleFunction = async (request: Request, response: Response) => {
 
   response.send({ fields, files, example: exampleService.toString() });
 };
+
+export const exampleFunction2 = async (
+  request: Request,
+  response: Response
+) => {
+  debug(`exampleFunction2 init`);
+  const exampleService = new ExampleService();
+  exampleService.process();
+  debug(`exampleFunction2 response: ${exampleService.toString()}`);
+
+  response.send({ example: exampleService.toString() });
+};

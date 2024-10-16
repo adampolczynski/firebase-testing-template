@@ -5,8 +5,12 @@ import { getFirestore } from 'firebase/firestore';
 
 import { config } from '@dotenvx/dotenvx';
 import { onRequest } from 'firebase-functions/v2/https';
-import { exampleFunction } from './functions/example-function';
-import { applyExampleMiddleware } from './functions/example-middleware';
+import {
+  exampleFunction,
+  exampleFunction2,
+} from './functions/example-function';
+import { exampleMiddleware } from './functions/example-middleware';
+import { authMiddleware } from './functions/auth-middleware';
 
 config();
 
@@ -31,13 +35,14 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 const expressApp = express();
+expressApp.get('/', [exampleMiddleware], exampleFunction2);
+expressApp.get('/private', [authMiddleware], exampleFunction2);
 expressApp.post('/', exampleFunction);
 
 const app = firebaseApp(firebaseConfig);
 const adminApp = fbAdmin.initializeApp({ projectId: env.FB_PROJECT_ID });
 const db = getFirestore(app);
 
-const exampleMiddlewareHandler = onRequest(applyExampleMiddleware(expressApp));
 const api = onRequest(expressApp);
 
 export default { api };

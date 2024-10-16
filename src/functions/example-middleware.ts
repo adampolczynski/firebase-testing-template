@@ -8,18 +8,7 @@ export const exampleMiddleware = async (
   next: NextFunction
 ) => {
   debug(`exampleMiddleware init`);
-
-  const exampleService = new ExampleService();
-  exampleService.process();
-  debug(`exampleService response: ${exampleService.toString()}`);
+  debug(`req.locals ${(request as any).locals}`);
 
   next();
 };
-
-export const applyExampleMiddleware =
-  (handler: (req: Request, res: Response) => void) =>
-  (req: Request, res: Response) => {
-    return exampleMiddleware(req, res, () => {
-      return handler(req, res);
-    });
-  };
