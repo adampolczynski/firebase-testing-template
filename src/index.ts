@@ -1,16 +1,20 @@
 import express from 'express';
-import { initializeApp as firebaseApp, FirebaseOptions } from 'firebase/app';
+import { initializeApp, FirebaseOptions } from 'firebase/app';
 import * as fbAdmin from 'firebase-admin';
 import { getFirestore } from 'firebase/firestore';
 
 import { config } from '@dotenvx/dotenvx';
 import { onRequest } from 'firebase-functions/v2/https';
 import {
+  authLoginFunction,
+  authRegisterFunction,
   exampleFunction,
   exampleFunction2,
-} from './functions/example-function';
-import { exampleMiddleware } from './functions/example-middleware';
-import { authMiddleware } from './functions/auth-middleware';
+  exampleMiddleware,
+  authMiddleware,
+  htmlLoginFunction,
+  htmlRegisterFunction,
+} from './functions';
 
 config();
 
@@ -39,10 +43,19 @@ expressApp.get('/', [exampleMiddleware], exampleFunction2);
 expressApp.get('/private', [authMiddleware], exampleFunction2);
 expressApp.post('/', exampleFunction);
 
-const app = firebaseApp(firebaseConfig);
-const adminApp = fbAdmin.initializeApp({ projectId: env.FB_PROJECT_ID });
-const db = getFirestore(app);
+// auth related functions
+expressApp.get('/login', htmlLoginFunction);
+expressApp.get('/register', htmlRegisterFunction);
+expressApp.post('/login', authLoginFunction);
+expressApp.post('/register', authRegisterFunction);
 
-const api = onRequest(expressApp);
+// protected routes
+expressApp.get('/protected', [authMiddleware], exampleFunction2);
 
-export default { api };
+export const app = initializeApp(firebaseConfig);
+
+export const admin = fbAdmin.initializeApp({ projectId: env.FB_PROJECT_ID });
+export const auth = admin.auth;
+export const db = getFirestore(app);
+
+export const api = onRequest(expressApp);
