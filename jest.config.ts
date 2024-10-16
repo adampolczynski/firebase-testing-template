@@ -3,15 +3,12 @@ import type { Config } from 'jest';
 const config: Config = {
   verbose: true,
   testEnvironment: 'node',
-  transform: {
-    '^.+.tsx?$': ['ts-jest', {}],
-  },
-  roots: ['src/', '__test__/'],
+  roots: ['dist/', '__test__/'],
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/functions/*.{js,jsx}',
-    'src/services/*.{js,jsx}',
-    'src/storage/*.{js,jsx}',
+    'dist/functions/*.{js,jsx}',
+    'dist/services/*.{js,jsx}',
+    'dist/storage/*.{js,jsx}',
   ],
 };
 

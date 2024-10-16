@@ -1,5 +1,5 @@
 import type { Response, Request } from 'express';
-import { auth } from '../';
+// import { auth } from '../';
 import { debug } from 'firebase-functions/logger';
 
 export const authLoginFunction = async (
@@ -26,11 +26,11 @@ export const authRegisterFunction = async (
     throw new Error('validation error');
   }
 
-  const user = await (auth() as any).createUserWithEmailAndPassword(
-    email,
-    password
-  );
-  debug(`${user.email} createUserWithEmailAndPassword success`);
+  //   const user = await (auth() as any).createUserWithEmailAndPassword(
+  //     email,
+  //     password
+  //   );
+  //   debug(`${user.email} createUserWithEmailAndPassword success`);
 
   response.sendStatus(200);
 };

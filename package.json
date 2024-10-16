@@ -14,18 +14,16 @@
     "firebase-emulators-testing",
     "firebase-emulators"
   ],
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "author": {
     "name": "Adam Połczyński <adam_polczynski@yahoo.com>"
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "start": "pnpm build && npx dotenvx run -- firebase emulators:start",
-    "build:watch": "tsc --watch",
-    "test": "pnpm build && firebase emulators:exec \"jest\"  --only functions",
-    "functions:serve": "npm run build && firebase emulators:start --only functions",
-    "functions:shell": "npm run build && firebase functions:shell",
+    "build": "tsc && cp -rf ./src/html-templates ./dist/",
+    "start": "npm run build && npx dotenvx run -- firebase emulators:start",
+    "build:watch": "cp -rf ./src/html-templates ./dist/ && tsc --watch",
+    "test": "npm run build && firebase emulators:exec \"jest\"  --only functions",
     "functions:logs": "firebase functions:log"
   },
   "engines": {

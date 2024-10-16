@@ -38,7 +38,7 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import FormData from 'form-data';
 
-import { exampleFunction } from '../../src/functions/example-function';
+import { exampleFunction } from '../../src/functions/example-functions';
 import { Request } from 'firebase-functions/v1';
 
 interface ITestFunctionResponse extends IEasyBusboyResponse {
