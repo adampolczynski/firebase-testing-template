@@ -1,4 +1,4 @@
-import { ExampleService } from '../../src/lib/example-service';
+import { ExampleService } from '../../src/services/example-service';
 
 describe('ExampleService', () => {
   afterEach(() => {

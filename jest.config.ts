@@ -8,7 +8,11 @@ const config: Config = {
   },
   roots: ['src/', '__test__/'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  collectCoverageFrom: [
+    'src/functions/*.{js,jsx}',
+    'src/services/*.{js,jsx}',
+    'src/storage/*.{js,jsx}',
+  ],
 };
 
 export default config;

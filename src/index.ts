@@ -6,6 +6,8 @@ import { getFirestore } from 'firebase/firestore';
 import { config } from '@dotenvx/dotenvx';
 import { onRequest } from 'firebase-functions/v2/https';
 import { exampleFunction } from './functions/example-function';
+import { applyExampleMiddleware } from './functions/example-middleware';
+
 config();
 
 // const { defineSecret } = require('firebase-functions/params');
@@ -35,6 +37,7 @@ const app = firebaseApp(firebaseConfig);
 const adminApp = fbAdmin.initializeApp({ projectId: env.FB_PROJECT_ID });
 const db = getFirestore(app);
 
-export const api = onRequest(expressApp);
+const exampleMiddlewareHandler = onRequest(applyExampleMiddleware(expressApp));
+const api = onRequest(expressApp);
 
 export default { api };

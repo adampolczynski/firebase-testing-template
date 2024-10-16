@@ -1,6 +1,6 @@
 import { easyBusboy } from 'easy-busboy';
 import { debug } from 'firebase-functions/logger';
-import { ExampleService } from '../lib/example-service';
+import { ExampleService } from '../services/example-service';
 import type { Response, Request } from 'express';
 
 export const exampleFunction = async (request: Request, response: Response) => {
