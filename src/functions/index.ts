@@ -10,7 +10,6 @@ const expressApp = express();
 
 // some examples
 expressApp.get('/', [exampleMiddleware], exampleFunction2);
-expressApp.get('/private', [authMiddleware], exampleFunction2);
 expressApp.post('/', exampleFunction);
 
 // auth related functions
@@ -18,6 +17,7 @@ expressApp.post('/login', authLoginFunction);
 expressApp.post('/register', authRegisterFunction);
 
 // protected routes
+expressApp.get('/profile', [authMiddleware], exampleFunction2);
 expressApp.get('/protected', [authMiddleware], exampleFunction2);
 
 export const api = onRequest(expressApp);

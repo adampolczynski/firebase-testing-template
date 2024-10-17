@@ -1,36 +1,35 @@
-import type { Response, Request } from 'express';
-// import { auth } from '../';
+import type { Response, Request, NextFunction } from 'express';
+import { auth } from '../services/firebase-wrapper';
 import { debug } from 'firebase-functions/logger';
 
 export const authLoginFunction = async (
   request: Request,
-  response: Response
+  response: Response,
+  next: NextFunction
 ) => {
   const { email, password } = request.body;
   debug(`requesting authLoginFunction with ${email} and ${password}`);
 
   if (!email || !password) {
-    throw new Error('validation error');
+    next('validation error');
   }
-  response.sendStatus(200);
+  response.status(200).json({ status: 'success' });
 };
 
 export const authRegisterFunction = async (
   request: Request,
-  response: Response
+  response: Response,
+  next: NextFunction
 ) => {
   const { email, password } = request.body;
   debug(`requesting authRegisterFunction with ${email} and ${password}`);
 
   if (!email || !password) {
-    throw new Error('validation error');
+    next(new Error('validation error'));
   }
 
-  //   const user = await (auth() as any).createUserWithEmailAndPassword(
-  //     email,
-  //     password
-  //   );
-  //   debug(`${user.email} createUserWithEmailAndPassword success`);
+  const user = await auth().createUser({ email, password });
+  debug(`${user.email} createUser success`);
 
-  response.sendStatus(200);
+  response.status(200).json({ status: 'success' });
 };

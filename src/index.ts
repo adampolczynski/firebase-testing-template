@@ -1,5 +1,6 @@
 import { config } from '@dotenvx/dotenvx';
 import { api } from './functions';
+import './services/firebase-wrapper';
 
 config();
 

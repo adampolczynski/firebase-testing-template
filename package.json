@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp -rf ./src/html-templates ./dist/",
-    "start": "npm run build && npx dotenvx run -- firebase emulators:start",
-    "build:watch": "cp -rf ./src/html-templates ./dist/ && tsc --watch",
+    "build": "tsc",
+    "start": "npm run build & npx dotenvx run -- firebase emulators:start",
+    "build:watch": "tsc --watch",
     "test": "npm run build && firebase emulators:exec \"jest\"  --only functions",
     "functions:logs": "firebase functions:log"
   },
