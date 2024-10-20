@@ -33,7 +33,7 @@
     "@dotenvx/dotenvx": "^1.17.0",
     "dotenv": "^16.4.5",
     "easy-busboy": "^1.2.0",
-    "express": "^4.21.1",
+    "express": "^5.0.0",
     "firebase": "^10.14.1",
     "firebase-admin": "^12.1.0",
     "firebase-functions": "^6.0.1",

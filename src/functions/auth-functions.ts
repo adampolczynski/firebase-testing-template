@@ -11,8 +11,10 @@ export const authLoginFunction = async (
   debug(`requesting authLoginFunction with ${email} and ${password}`);
 
   if (!email || !password) {
-    next('validation error');
+    next(new Error('validation error'));
   }
+
+  // https://firebase.google.com/docs/auth/web/manage-users
   response.status(200).json({ status: 'success' });
 };
 
